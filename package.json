@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "scripts": {
-    "build": "npm install --prefix client/vite-project && npm run build --prefix client/vite-project"
-  }
-}
