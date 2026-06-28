@@ -8,8 +8,20 @@ const app = express()
 
 const API_URL = 'https://v6.exchangerate-api.com/v6'
 
+const clientUrl = process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : null;
+
 const corsOptions = {
-    origin: process.env.CLIENT_URL || true,
+    origin: function (origin, callback) {
+        // allow non-browser requests (Postman, curl)
+        if (!origin) return callback(null, true)
+        // if no CLIENT_URL configured, allow all
+        if (!clientUrl) return callback(null, true)
+        // allow exact match (trimmed)
+        if (origin === clientUrl) return callback(null, true)
+        console.warn(`Blocked CORS request from origin: ${origin}`)
+        return callback(new Error('Not allowed by CORS'))
+    },
+    optionsSuccessStatus: 200,
 }
 
 app.use(express.json())
