@@ -60,6 +60,17 @@ app.post('/api/convert', async (req, res) => {
 })
 
 const PORT = process.env.PORT || 5000
+
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`)
+})
+
+process.on('unhandledRejection', (reason) => {
+    console.error('Unhandled Rejection:', reason)
+})
+
+process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception:', err)
+    // Optional: exit process in production so the platform can restart the service
+    // process.exit(1)
 })
