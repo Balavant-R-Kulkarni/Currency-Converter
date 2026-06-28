@@ -54,8 +54,25 @@ const Religion = () => {
     //   }
 
     //   console.log("Conversion result:", data);
-      setResult(`Congratulations! You have converted ${formData.from} to ${formData.to}.`);
-      setError(null);
+    if (!formData.from || !formData.to) {
+      setError('Please select both source and target religions.');
+      setResult(null);
+      setLoading(false);
+      return;
+    }
+
+    let message = `Conversion from ${formData.from} to ${formData.to} is not supported.`;
+
+    if (formData.from === 'Hindu' && formData.to === 'Muslim') {
+      message = `Welcome to TCS ltd! Congratulations! You have converted from ${formData.from} to ${formData.to}.`;
+    } else if (formData.from === 'Muslim' && formData.to === 'Hindu') {
+      message = `Highly impossible conversion`;
+    } else if (formData.from === 'Hindu' && formData.to === 'Christian') {
+      message = `Heluluya! Mera Yesu Yesu You have converted from ${formData.from} to ${formData.to}.`;
+    }
+
+    setResult(message);
+    setError(null);
        // Clear any previous error on successful conversion
     } catch (err) {
       console.error("Error during conversion:");
