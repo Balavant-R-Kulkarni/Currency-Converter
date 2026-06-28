@@ -8,12 +8,12 @@ const app = express()
 
 const API_URL = 'https://v6.exchangerate-api.com/v6'
 
-const options = {
-    origin: process.env.CLIENT_URL,
+const corsOptions = {
+    origin: process.env.CLIENT_URL || true,
 }
 
 app.use(express.json())
-app.use(cors(options))
+app.use(cors(corsOptions))
 
 const httpsAgent = process.env.IGNORE_SELF_SIGNED_CERTS === 'true'
     ? new https.Agent({ rejectUnauthorized: false })
@@ -63,7 +63,7 @@ app.post('/api/convert', async (req, res) => {
     }
 })
 
-const PORT = 8080
+const PORT = process.env.PORT || 8080
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`)
