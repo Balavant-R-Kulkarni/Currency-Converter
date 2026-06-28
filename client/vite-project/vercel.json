@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "SOURCE": "/(.*)",
-      "DESTINATION": "/"
+      "source": "/api/(.*)",
+      "destination": "https://currency-converter-production-f8cf.up.railway.app/$1"
     }
   ]
 }
