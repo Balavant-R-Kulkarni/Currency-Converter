@@ -84,7 +84,7 @@ const Religion = () => {
 
   return (
     <div className="App">
-      <h1>Currency Converter</h1>
+      <h1>Religion Converter</h1>
       <div className="converter-form">
        <label htmlFor="from" style={{ fontWeight: "bold", color: "#7a7c7d" }}>
           From:
