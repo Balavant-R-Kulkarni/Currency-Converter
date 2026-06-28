@@ -50,8 +50,9 @@ const App = () => {
     };
 
     setLoading(true);
+    const apiUrl = import.meta.env.VITE_API_URL || "https://currency-converter-production-f8cf.up.railway.app";
     try {
-      const response = await fetch("currency-converter-production-f8cf.up.railway.app", {
+      const response = await fetch(`${apiUrl}/api/convert`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
