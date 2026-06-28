@@ -19,6 +19,10 @@ const httpsAgent = process.env.IGNORE_SELF_SIGNED_CERTS === 'true'
     ? new https.Agent({ rejectUnauthorized: false })
     : undefined
 
+app.get('/', (req, res) => {
+    res.send('Currency Converter API is running')
+})
+
 app.post('/api/convert', async (req, res) => {
     const { amount, from, to } = req.body
 
