@@ -51,7 +51,7 @@ const App = () => {
 
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/convert", {
+      const response = await fetch("currency-converter-production-f8cf.up.railway.app", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
