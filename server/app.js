@@ -9,7 +9,7 @@ const app = express()
 const API_URL = 'https://v6.exchangerate-api.com/v6'
 
 const clientUrl = process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : null;
-//const viteurl = 'https://currency-converter-nine-jade.vercel.app'
+const viteurl = 'http://localhost:5173'
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -18,7 +18,7 @@ const corsOptions = {
         // if no CLIENT_URL configured, allow all
         if (!clientUrl) return callback(null, true)
         // allow exact match (trimmed)
-        if (origin === clientUrl) return callback(null, true)
+        if (origin === viteurl) return callback(null, true)
         console.warn(`Blocked CORS request from origin: ${origin}`)
         return callback(new Error('Not allowed by CORS'))
     },
@@ -58,7 +58,7 @@ app.post('/api/convert', async (req, res) => {
     if (!from || !to || !amount) {
         return res.status(400).json({
             error: 'Invalid request',
-            details: 'from, to, and amount are required fields',
+            details: 'Source, Target currencies and amount should be provided',
         })
     }
 
