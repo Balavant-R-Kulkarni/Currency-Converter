@@ -88,7 +88,7 @@ const App = () => {
     };
 
     setLoading(true);
-    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080"; // Fallback to localhost for development
+    const apiUrl = import.meta.env.VITE_API_URL || "https://currency-converter-production-7d51.up.railway.app"; // Fallback to localhost for development
     try {
       const response = await fetch(`${apiUrl}/api/convert`, {
         method: "POST",
