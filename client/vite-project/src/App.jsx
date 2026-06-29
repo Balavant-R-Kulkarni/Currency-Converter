@@ -126,8 +126,8 @@ const App = () => {
 
   useEffect(() => {
     const fetchHomeMessage = async () => {
-      //const codeswithCuurr = axios.get("https://currency-converter-production-7d51.up.railway.app/api/codes");
-      const codeswithCuurr = await axios.get("http://localhost:8080/api/codes");
+      const codeswithCuurr = axios.get("https://currency-converter-production-7d51.up.railway.app/api/codes");
+      //const codeswithCuurr = await axios.get("http://localhost:8080/api/codes");
       const { data } = await codeswithCuurr;
       const supportedCurrenciesWithNames = data.map((code) => `${code[0]} - ${code[1]}`);
       setCurrencies(supportedCurrenciesWithNames);
