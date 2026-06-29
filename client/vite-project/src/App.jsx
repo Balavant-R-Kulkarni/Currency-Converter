@@ -35,7 +35,7 @@ const App = () => {
     };
 
     setLoading(true);
-    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080"; // Fallback to localhost for development
+    const apiUrl = import.meta.env.VITE_API_URL || "https://currency-converter-production-7d51.up.railway.app"; // Fallback to localhost for development
     try {
       const response = await fetch(`${apiUrl}/api/convert`, {
         method: "POST",
@@ -65,7 +65,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchHomeMessage = async () => {
-      const codeswithCuurr = axios.get("http://localhost:8080/api/codes");
+      const codeswithCuurr = axios.get("https://currency-converter-production-7d51.up.railway.app/api/codes");
       const { data } = await codeswithCuurr;
       const supportedCurrenciesWithNames = data.map((code) => `${code[0]} - ${code[1]}`);
       setCurrencies(supportedCurrenciesWithNames);
