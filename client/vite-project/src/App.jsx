@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect  } from "react";
+import axios from "axios";
 import "./App.css";
 
 const App = () => {
@@ -11,25 +12,7 @@ const App = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const currencies = [
-    "USD",
-    "EUR",
-    "GBP",
-    "JPY",
-    "AUD",
-    "CAD",
-    "CHF",
-    "CNY",
-    "SEK",
-    "NZD",
-    "INR",
-    "BRL",
-    "ZAR",
-    "RUB",
-    "KRW",
-    "SGD",
-    "MXN",
-  ];
+  const [currencies, setCurrencies] = useState([]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -47,10 +30,12 @@ const App = () => {
     const payload = {
       ...formData,
       amount: Number(formData.amount),
+      from: formData.from.split(" - ")[0], // Extract the currency code
+      to: formData.to.split(" - ")[0], // Extract the currency code
     };
 
     setLoading(true);
-    const apiUrl = import.meta.env.VITE_API_URL || "https://currency-converter-production-7d51.up.railway.app";
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080"; // Fallback to localhost for development
     try {
       const response = await fetch(`${apiUrl}/api/convert`, {
         method: "POST",
@@ -77,6 +62,17 @@ const App = () => {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    const fetchHomeMessage = async () => {
+      const codeswithCuurr = axios.get("http://localhost:8080/api/codes");
+      const { data } = await codeswithCuurr;
+      const supportedCurrenciesWithNames = data.map((code) => `${code[0]} - ${code[1]}`);
+      setCurrencies(supportedCurrenciesWithNames);
+    };
+    fetchHomeMessage()
+
+  },[])
 
   return (
     <div className="App">
