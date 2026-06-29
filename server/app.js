@@ -9,6 +9,7 @@ const app = express()
 const API_URL = 'https://v6.exchangerate-api.com/v6'
 
 const clientUrl = process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : null;
+const viteurl = 'http://localhost:5173'
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -17,7 +18,7 @@ const corsOptions = {
         // if no CLIENT_URL configured, allow all
         if (!clientUrl) return callback(null, true)
         // allow exact match (trimmed)
-        if (origin === clientUrl) return callback(null, true)
+        if (origin === viteurl) return callback(null, true)
         console.warn(`Blocked CORS request from origin: ${origin}`)
         return callback(new Error('Not allowed by CORS'))
     },
@@ -33,6 +34,22 @@ const httpsAgent = process.env.IGNORE_SELF_SIGNED_CERTS === 'true'
 
 app.get('/', (req, res) => {
     res.send('Currency Converter API is running')
+})
+
+app.get('/api/codes', (req, res) => {
+    try {
+        axios.get(`${API_URL}/${process.env.API_KEY}/codes`, { httpsAgent })
+            .then(response => {
+                res.json(response.data.supported_codes)
+            })
+            .catch(error => {
+                console.error('Error fetching currency codes:', error.message)
+                res.status(500).json({ error: 'Failed to fetch currency codes' })
+            })
+    } catch (error) {
+        console.error('Error fetching currency codes:', error.message)
+        res.status(500).json({ error: 'Failed to fetch currency codes' })
+    }
 })
 
 app.post('/api/convert', async (req, res) => {
@@ -62,8 +79,8 @@ app.post('/api/convert', async (req, res) => {
             base: from,
             target: to,
             amount,
-            rate: response.data.conversion_rate,
-            convertedAmount: response.data.conversion_result,
+            rate: response.data.conversion_rate.toFixed(2),
+            convertedAmount: response.data.conversion_result.toFixed(2),
         })
     } catch (error) {
         const details = error.response?.data?.error || error.response?.data || error.message
